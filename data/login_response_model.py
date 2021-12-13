@@ -8,11 +8,10 @@ class Meta(BaseModel):
 
 
 class Data(BaseModel):
-    nickname: str = None
-    account_id: int = None
+    location: str = None
 
 
-class PlayerResponse(BaseModel):
+class LoginResponse(BaseModel):
     status: str = None
     meta: Meta = None
-    data: List[Data] = None
+    data: Data = None

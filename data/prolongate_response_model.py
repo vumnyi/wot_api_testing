@@ -1,18 +1,15 @@
+import datetime
 from typing import List
 
 from pydantic import BaseModel
 
 
-class Meta(BaseModel):
-    count: int = None
-
-
 class Data(BaseModel):
-    nickname: str = None
+    access_token: str = None
     account_id: int = None
+    expires_at: datetime.time = None
 
 
-class PlayerResponse(BaseModel):
+class ProlongateResponse(BaseModel):
     status: str = None
-    meta: Meta = None
     data: List[Data] = None

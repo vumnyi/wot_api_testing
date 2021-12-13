@@ -3,9 +3,12 @@ import pytest
 import requests
 from assertpy import assert_that, soft_assertions
 
-from data.player_response_models import PlayerResponse, PlayerResponseError
+from data.player_response_models import PlayerResponse
+from data.response_error import ResponseError
 
-TEST_URL = 'https://api.worldoftanks.ru/wot/account/list/?application_id=665706907130c05ec28aa85c64eb6589'
+
+APPLICATION_ID = '665706907130c05ec28aa85c64eb6589'
+TEST_URL = f'https://api.worldoftanks.ru/wot/account/list/?application_id={APPLICATION_ID}'
 
 
 @allure.feature('Checking valid response')
@@ -29,7 +32,7 @@ SEARCH_LIST_LIMIT_EXCEEDED = ('asd,' * 100, 407, 'SEARCH_LIST_LIMIT_EXCEEDED', '
 @allure.feature('Checking errors')
 def test_search_errors(search_value, error_code, error_text, search_type):
     response = requests.get(TEST_URL, params={'search': search_value, 'type': search_type}).json()
-    player_response_error = PlayerResponseError(**response)
+    player_response_error = ResponseError(**response)
     with soft_assertions():
         assert_that(player_response_error.status).is_equal_to('error')
         assert_that(player_response_error.error.code).is_equal_to(error_code)
